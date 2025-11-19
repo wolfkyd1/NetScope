@@ -6,8 +6,8 @@ A powerful, browser-based WiFi network planning and RF propagation modeling tool
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-🚀 Try NetScope Now - No Download Required!
-<strong>➡️ <a href="https://wolfkyd1.github.io/NetScope/">Launch NetScope</a> ⬅️</strong>
+🚀 Try NetScope Now - No Download Required! </br>
+<strong>➡️ <a href="https://wolfkyd1.github.io/NetScope/">Launch NetScope</a> ⬅️</strong></br>
 Use NetScope directly in your browser - no installation, no setup, no hassle!
 
 ✨ Features
