@@ -1,5 +1,4 @@
-# 📡 NetScope - Professional RF Network Design Tool
-
+📡 NetScope - Professional RF Network Design Tool
 A powerful, browser-based WiFi network planning and RF propagation modeling tool for designing enterprise wireless networks. Plan your WiFi coverage with real-time heatmaps, wall attenuation modeling, and comprehensive AP placement analysis.
 
 ![NetScope Interface](https://img.shields.io/badge/Status-Active-success)
@@ -7,90 +6,159 @@ A powerful, browser-based WiFi network planning and RF propagation modeling tool
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
----
+🚀 Try NetScope Now - No Download Required!
+<strong>➡️ <a href="https://wolfkyd1.github.io/NetScope/">Launch NetScope</a> ⬅️</strong>
+Use NetScope directly in your browser - no installation, no setup, no hassle!
 
-## ✨ Features
+✨ Features
+🗺️ Floor Plan Integration
 
-### 🗺️ **Floor Plan Integration**
-- Upload floor plans as images (PNG, JPG) or PDF files
-- Automatic PDF-to-image conversion
-- Precise scale calibration tool for accurate measurements
-- Pan and zoom controls for detailed planning
+Upload floor plans as images (PNG, JPG) or PDF files
+Automatic PDF-to-image conversion
+Precise scale calibration tool for accurate measurements
+Pan and zoom controls for detailed planning
 
-### 📶 **Access Point Management**
-- **Extensive device library** with 40+ pre-configured APs from:
-  - **Aruba** (AP-325, AP-515, AP-555, AP-635, AP-655, AP-505H, AP-387)
-  - **Grandstream** (GWN7630LR, GWN7660, GWN7664, GWN7605, GWN7610, GWN7602, GWN7000/7001 Routers)
-  - **MikroTik** (cAP ac, wAP ac, cAP XL ac, Audience, BaseBox 5, SXTsq 5 ac, hAP series)
-  - **TP-Link** (EAP225, EAP245, EAP620 HD, EAP650, EAP655, EAP660 HD, Archer series)
-- Drag-and-drop AP placement
-- Real-time signal coverage visualization
-- Configurable AP settings:
-  - Transmit power (2.4 GHz & 5 GHz)
-  - Channel assignment
-  - Antenna type (omnidirectional/directional)
-  - Antenna orientation
-  - Mounting height
+📶 Access Point Management
 
-### 🧱 **Wall & Obstacle Modeling**
-- Draw walls with click-to-place interface
-- Smart wall snapping for room creation
-- Material-based attenuation modeling:
-  - Glass (3 dB)
-  - Wood (5 dB)
-  - Drywall (8 dB)
-  - Concrete (12 dB)
-  - Brick (15 dB)
-  - Metal/Elevator Shafts (20 dB)
-- Automatic room detection
-- Editable wall properties
+Massive device library with 194 pre-configured devices from 14 major brands:
+🏢 Enterprise Brands:
 
-### 🔥 **RF Propagation & Heatmaps**
-- Real-time signal strength heatmaps
-- Free Space Path Loss (FSPL) calculations
-- Wall attenuation modeling
-- Multiple resolution settings (Low/Medium/High)
-- Adjustable heatmap opacity
-- Coverage circles visualization
-- Signal strength at any point (click-to-measure)
+Aruba (7 models) - AP-325, AP-515, AP-555, AP-635, AP-655, AP-505H, AP-387
+Cisco Meraki (10 models) - MR36, MR46, MR56, MR57, MR86, MR76, MR86E, MR20, MX67W, MX68W
+Ruckus (12 models) - R350, R550, R650, R750, R850, R770, T350c, T750, H350, H550, R320, R510
+Juniper Mist (8 models) - AP33, AP34, AP43, AP44, AP45, AP63, AP12, AP21
+Fortinet (10 models) - FAP-231F, FAP-431F, FAP-433F, FAP-831F, FAP-234F, FAP-234G, FAP-221E, FAP-423E, FAP-231G, FAP-221C
+Extreme Networks (10 models) - AP4000, AP410C, AP305C, AP3000, AP4000U, AP302W, AP3965e, AP4000E, AP122, AP250
 
-### 👥 **Client Simulation**
-- Simulate 10-200 WiFi clients
-- Automatic AP association
-- Client density heatmaps
-- Real-time speed estimates based on RSSI:
-  - WiFi link speed calculation
-  - Download/upload bottleneck analysis
-  - Per-client signal strength visualization
+📊 SMB Brands:
 
-### 📊 **Analysis Tools**
-- **Auto-Channel Planning**: Automatically assigns non-overlapping channels
-- **Interference Detection**: Visualize co-channel and adjacent-channel interference
-- **Coverage Statistics**: Real-time coverage percentage calculations
-- **Room Analysis**: Automatic room detection with area calculations
-- **Measurement Tool**: Click-to-measure distances in feet
-- **Signal Analysis**: Point-and-click signal strength analysis
+Ubiquiti (33 models) - UniFi 6, UniFi 7, UniFi AC series, Dream Machine series, AmpliFi series
+TP-Link (15 models) - EAP series APs, Archer routers, Omada series
+Grandstream (9 models) - GWN7630LR, GWN7660, GWN7664, GWN7605, GWN7610, GWN7602, GWN7000/7001 Routers
+MikroTik (10 models) - cAP ac, wAP ac, cAP XL ac, Audience, BaseBox 5, SXTsq 5 ac, hAP series
+Cambium Networks (12 models) - XV3-8, XV2-2, X4-8, e600, e700, cnPilot series, ePMP series
+Netgear Business (12 models) - WAX series, Orbi Pro
+EnGenius (10 models) - EWS377AP, EWS357AP, ECW series
+Zyxel (10 models) - WAX650S, WAX640S, NWA210AX, WAX610D series
 
-### 📤 **Export Capabilities**
-- **PDF Reports** including:
-  - Project summary
-  - AP configuration details
-  - Coverage heatmap visualization
-  - Room listings
-- **PNG Heatmap Export**: High-resolution coverage maps
-- **JSON Project Files**: Save and load complete projects
+🏠 Consumer Brands:
 
----
+ASUS (15 models) - ROG Gaming series, ZenWiFi Mesh, RT-AX series
+Netgear Consumer (12 models) - Nighthawk series, Orbi Mesh
+Linksys (12 models) - Velop Mesh, Gaming routers, MX/EA series
+D-Link (10 models) - DIR-X series, COVR Mesh, Business APs
 
-## 🚀 Getting Started
 
-### Installation
+Smart Device Search & Filtering:
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/netscope.git
-   cd netscope
-   ```
+🔍 Real-time search by model name or type
+📋 Filter by vendor dropdown (14 vendors)
+📊 Live device counter showing matches
+📡 Visual icons (AP vs Router indicators)
+⚡ Instant results as you type
+
+
+Device Management:
+
+Drag-and-drop AP placement
+Real-time signal coverage visualization
+AP duplication for quick deployment
+Configurable AP settings:
+
+Transmit power (2.4 GHz & 5 GHz)
+Channel assignment
+Antenna type (omnidirectional/directional)
+Antenna orientation
+Mounting height
+SSID configuration
+
+
+
+
+
+🧱 Wall & Obstacle Modeling
+
+Draw walls with click-to-place interface
+Smart wall snapping for room creation
+Snap-to-wall endpoint feature for precise room closures
+Material-based attenuation modeling:
+
+Glass (3 dB)
+Wood (5 dB)
+Drywall (8 dB)
+Concrete (12 dB)
+Brick (15 dB)
+Metal/Elevator Shafts (20 dB)
+
+
+Automatic room detection with perimeter-first algorithm
+Building area calculation
+Editable wall properties
+Visual wall edit points
+
+🔥 RF Propagation & Heatmaps
+
+Real-time signal strength heatmaps
+Free Space Path Loss (FSPL) calculations
+Wall attenuation modeling
+Multiple resolution settings (Low/Medium/High)
+Adjustable heatmap opacity
+Coverage circles visualization
+Signal strength at any point (click-to-measure)
+Directional antenna pattern modeling
+
+👥 Client Simulation
+
+Simulate 10-200 WiFi clients
+Automatic AP association
+Client density heatmaps
+Smart client placement (inside rooms only)
+Real-time speed estimates based on RSSI:
+
+WiFi link speed calculation (up to 1.2 Gbps)
+Download/upload bottleneck analysis
+Per-client signal strength visualization
+Internet speed impact modeling
+
+
+
+📊 Analysis Tools
+
+Auto-Channel Planning: Automatically assigns non-overlapping channels to minimize interference
+Interference Detection: Visualize co-channel and adjacent-channel interference
+Coverage Statistics: Real-time coverage percentage calculations (>-65dBm threshold)
+Room Analysis: Automatic room detection with area calculations in sq ft
+Measurement Tool: Click-to-measure distances in feet with visual indicators
+Signal Analysis: Point-and-click signal strength analysis from all APs
+Building Statistics: Total building area tracking
+
+📤 Export Capabilities
+
+PDF Reports including:
+
+Project summary with statistics
+AP configuration details (position, power, channels)
+Coverage heatmap visualization
+Room listings with areas
+Device type indicators (AP/Router)
+Date/time stamps
+
+
+PNG Heatmap Export: High-resolution coverage maps
+JSON Project Files: Save and load complete projects with all settings
+
+
+🚀 Getting Started
+Option 1: Use Online (Recommended)
+Simply visit: https://wolfkyd1.github.io/NetScope/
+No installation required! Works in any modern browser.
+Option 2: Run Locally
+
+Clone the repository:
+
+bash   git clone https://github.com/wolfkyd1/NetScope.git
+   cd NetScope
+```
 
 2. **Open in browser:**
    - Simply open `index.html` in any modern web browser
@@ -109,12 +177,15 @@ A powerful, browser-based WiFi network planning and RF propagation modeling tool
 
 3. **Add Access Points** 📡
    - Click "Add AP" in the toolbar
-   - Select your AP model from the device library
+   - Use the search box to find your device (e.g., type "U6" or "Meraki")
+   - Or filter by vendor using the dropdown
+   - Click on your device model
    - Click on the floor plan to place the AP
 
 4. **Draw Walls** 🧱
    - Click the "Wall" tool
    - Click to place points along walls
+   - Walls snap to existing walls for easy room creation
    - Double-click or press ESC to finish
    - Select wall material type when prompted
 
@@ -122,11 +193,13 @@ A powerful, browser-based WiFi network planning and RF propagation modeling tool
    - Coverage heatmap updates automatically
    - Toggle heatmap visibility in bottom-left controls
    - Adjust opacity and resolution as needed
+   - Enable coverage circles for visual range indicators
 
 6. **Simulate Clients** 👥
    - Set client count in the right panel (10-200)
    - Click "Simulate Clients"
    - View client connections and density
+   - Enable "Show Client Density" for density heatmap
 
 7. **Export Results** 💾
    - Click "Export PDF" for comprehensive reports
@@ -149,6 +222,27 @@ A powerful, browser-based WiFi network planning and RF propagation modeling tool
 | `Space + Drag` | Pan canvas |
 | `Mouse Wheel` | Zoom in/out |
 | `Ctrl+S` | Save project |
+
+---
+
+## 🎯 Device Library Features
+
+### Search Capabilities
+- **Instant Search**: Type any part of a model name or vendor name
+  - Example: "U6" finds all Ubiquiti U6 models
+  - Example: "Meraki" shows all Cisco Meraki devices
+  - Example: "router" filters all router models
+
+### Vendor Filtering
+- Quick access to all 14 vendors via dropdown
+- See device count per vendor
+- Combine search with vendor filter for precise results
+
+### Device Information Displayed
+- Model name with type indicator (AP/Router)
+- Radio specifications (2.4 GHz and 5 GHz TX power)
+- Antenna type and gain
+- Beamwidth for directional antennas
 
 ---
 
@@ -182,8 +276,13 @@ Where:
 RSSI = TX_Power + Antenna_Gain - FSPL - Wall_Attenuation
 ```
 
+### Directional Antenna Pattern
+- Main lobe: Full gain within beamwidth
+- Side lobes: Up to 20 dB reduction outside beamwidth
+- Adjustable antenna orientation (0-359°)
+
 ### Signal Quality Thresholds
-- **Excellent**: > -50 dBm (1.2 Gbps)
+- **Excellent**: > -50 dBm (1.2 Gbps WiFi 6/6E)
 - **Good**: -50 to -65 dBm (600-866 Mbps)
 - **Fair**: -65 to -80 dBm (200-400 Mbps)
 - **Poor**: < -80 dBm (< 100 Mbps)
@@ -191,101 +290,35 @@ RSSI = TX_Power + Antenna_Gain - FSPL - Wall_Attenuation
 ---
 
 ## 📋 Project Structure
-
 ```
 netscope/
 ├── index.html          # Main application file (all-in-one)
 ├── README.md           # This file
 ├── LICENSE             # MIT License
-└── examples/           # Example projects
+└── examples/           # Example projects (coming soon)
     ├── office.json
     ├── warehouse.json
     └── retail.json
-```
 
----
+🎯 Use Cases
 
-## 🎯 Use Cases
+Enterprise WiFi Planning: Design optimal AP placement for offices and campuses
+Warehouse Networks: Plan coverage for large industrial spaces
+Retail Deployments: Ensure coverage in customer areas
+Venue WiFi: Design networks for stadiums, conference centers, hotels
+Education: Network planning for schools and universities
+Healthcare: RF planning for hospitals with strict coverage requirements
+IoT Deployments: Plan coverage for IoT device connectivity
+Multi-Vendor Comparisons: Compare coverage from 14 different manufacturers
+Budget Planning: Design with devices from enterprise to consumer grade
 
-- **Enterprise WiFi Planning**: Design optimal AP placement for offices and campuses
-- **Warehouse Networks**: Plan coverage for large industrial spaces
-- **Retail Deployments**: Ensure coverage in customer areas
-- **Venue WiFi**: Design networks for stadiums, conference centers, hotels
-- **Education**: Network planning for schools and universities
-- **Healthcare**: RF planning for hospitals with strict coverage requirements
-- **IoT Deployments**: Plan coverage for IoT device connectivity
 
----
+🌐 Browser Compatibility
+NetScope works best on modern browsers:
 
-## 🤝 Contributing
+✅ Chrome/Edge 90+
+✅ Firefox 88+
+✅ Safari 14+
+✅ Opera 76+
 
-Contributions are welcome! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit your changes**: `git commit -m 'Add amazing feature'`
-4. **Push to the branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Feature Requests & Bug Reports
-
-Please use GitHub Issues to report bugs or request features.
-
-**When reporting bugs, please include:**
-- Browser version
-- Steps to reproduce
-- Expected vs actual behavior
-- Screenshots if applicable
-
----
-
-## 📝 Roadmap
-
-- [ ] 6 GHz (WiFi 6E) support
-- [ ] 3D visualization mode
-- [ ] Multi-floor planning
-- [ ] Outdoor propagation models
-- [ ] Bill of Materials (BOM) export
-- [ ] Integration with vendor APIs
-- [ ] Real-time collaboration
-- [ ] Mobile app version
-- [ ] Advanced interference analysis
-- [ ] Cost estimation tools
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Device specifications sourced from manufacturer datasheets
-- RF propagation models based on IEEE 802.11 standards
-- Inspired by professional tools like Ekahau and iBwave
-
----
-
-## 📞 Support
-
-- **Documentation**: [Wiki](https://github.com/yourusername/netscope/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/netscope/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/netscope/discussions)
-
----
-
-## 🌟 Star History
-
-If you find NetScope useful, please consider giving it a star! ⭐
-
----
-
-<div align="center">
-
-**Made with ❤️ by the NetScope Team**
-
-[Report Bug](https://github.com/yourusername/netscope/issues) · [Request Feature](https://github.com/yourusername/netscope/issues) · [Documentation](https://github.com/yourusername/netscope/wiki)
-
-</div>
+Recommended: Chrome or Edge for best performance
