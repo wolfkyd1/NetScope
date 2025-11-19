@@ -332,6 +332,7 @@
             gap: 8px;
             max-height: 400px;
             overflow-y: auto;
+            padding-right: 8px;
         }
         
         .device-item {
@@ -342,10 +343,12 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .device-item:hover {
             border-color: var(--primary-color);
             background: var(--border-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
         .device-item .device-name {
@@ -786,11 +789,31 @@
     
     <!-- Device Library Modal -->
     <div class="modal" id="device-modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 700px;">
             <div class="modal-header">
-                <h2>Select Access Point</h2>
+                <h2>Select Access Point / Router</h2>
                 <button class="close-btn" id="close-device-modal">&times;</button>
             </div>
+            
+            <!-- Search and Filter Controls -->
+            <div style="margin-bottom: 16px;">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label>Search</label>
+                    <input type="text" id="device-search" placeholder="Search by model name or type..." style="width: 100%;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Filter by Vendor</label>
+                    <select id="device-vendor-filter" style="width: 100%;">
+                        <option value="all">All Vendors</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Device count -->
+            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                <span id="device-count">0 devices</span>
+            </div>
+            
             <div id="device-grid"></div>
         </div>
     </div>
@@ -853,11 +876,11 @@
         // ===================================================================
         // DEVICE LIBRARY - Sample access points from various vendors
         // ===================================================================
-        const DEVICE_LIBRARY = [
+const DEVICE_LIBRARY = [
             // Aruba Access Points
             {
                 vendor: "Aruba",
-                model: "AP-325",
+                model: "AP-325 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -867,7 +890,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-515",
+                model: "AP-515 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -877,7 +900,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-555",
+                model: "AP-555 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -887,7 +910,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-635",
+                model: "AP-635 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -897,7 +920,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-655",
+                model: "AP-655 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -907,7 +930,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-505H",
+                model: "AP-505H (AP)",
                 radios: [
                     { band: "2.4", maxTx: 18 },
                     { band: "5", maxTx: 20 }
@@ -917,7 +940,7 @@
             },
             {
                 vendor: "Aruba",
-                model: "AP-387",
+                model: "AP-387 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -929,7 +952,7 @@
             // Grandstream Access Points
             {
                 vendor: "Grandstream",
-                model: "GWN7630LR",
+                model: "GWN7630LR (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -939,7 +962,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7660",
+                model: "GWN7660 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -949,7 +972,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7664",
+                model: "GWN7664 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -959,7 +982,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7605",
+                model: "GWN7605 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -969,7 +992,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7600",
+                model: "GWN7600 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -979,7 +1002,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7610",
+                model: "GWN7610 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -989,7 +1012,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7602",
+                model: "GWN7602 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 18 },
                     { band: "5", maxTx: 20 }
@@ -1001,7 +1024,7 @@
             // Grandstream Routers
             {
                 vendor: "Grandstream",
-                model: "GWN7000 Router",
+                model: "GWN7000 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1011,7 +1034,7 @@
             },
             {
                 vendor: "Grandstream",
-                model: "GWN7001 Router",
+                model: "GWN7001 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1023,7 +1046,7 @@
             // MikroTik Access Points
             {
                 vendor: "MikroTik",
-                model: "cAP ac",
+                model: "cAP ac (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1033,7 +1056,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "wAP ac",
+                model: "wAP ac (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1043,7 +1066,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "cAP XL ac",
+                model: "cAP XL ac (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1053,7 +1076,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "Audience",
+                model: "Audience (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1063,7 +1086,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "RBwAPG-5HacT2HnD",
+                model: "RBwAPG-5HacT2HnD (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1073,7 +1096,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "BaseBox 5",
+                model: "BaseBox 5 (AP)",
                 radios: [
                     { band: "5", maxTx: 23 }
                 ],
@@ -1082,7 +1105,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "SXTsq 5 ac",
+                model: "SXTsq 5 ac (AP)",
                 radios: [
                     { band: "5", maxTx: 23 }
                 ],
@@ -1093,7 +1116,7 @@
             // MikroTik Routers with WiFi
             {
                 vendor: "MikroTik",
-                model: "hAP ac2",
+                model: "hAP ac2 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1103,7 +1126,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "hAP ax2",
+                model: "hAP ax2 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1113,7 +1136,7 @@
             },
             {
                 vendor: "MikroTik",
-                model: "hAP ax3",
+                model: "hAP ax3 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1125,7 +1148,7 @@
             // TP-Link Access Points
             {
                 vendor: "TP-Link",
-                model: "EAP225",
+                model: "EAP225 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1135,7 +1158,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP245",
+                model: "EAP245 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1145,7 +1168,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP620 HD",
+                model: "EAP620 HD (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1155,7 +1178,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP650",
+                model: "EAP650 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1165,7 +1188,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP655",
+                model: "EAP655 (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1175,7 +1198,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP660 HD",
+                model: "EAP660 HD (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1185,7 +1208,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP615-Wall",
+                model: "EAP615-Wall (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1195,7 +1218,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP225-Outdoor",
+                model: "EAP225-Outdoor (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1205,7 +1228,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "EAP610-Outdoor",
+                model: "EAP610-Outdoor (AP)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1217,7 +1240,7 @@
             // TP-Link Routers
             {
                 vendor: "TP-Link",
-                model: "Archer AX55",
+                model: "Archer AX55 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1227,7 +1250,7 @@
             },
             {
                 vendor: "TP-Link",
-                model: "Archer AX73",
+                model: "Archer AX73 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
@@ -1237,10 +1260,1921 @@
             },
             {
                 vendor: "TP-Link",
-                model: "ER605 Router",
+                model: "ER605 (Router)",
                 radios: [
                     { band: "2.4", maxTx: 20 },
                     { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // ===================================================================
+            // UBIQUITI UNIFI ACCESS POINTS & ROUTERS
+            // ===================================================================
+            
+            // UniFi 6 Series (WiFi 6 / 802.11ax)
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Lite (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-LR (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Pro (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Enterprise (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Mesh (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 10.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-IW (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Extender (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 18 },
+                    { band: "5", maxTx: 20 }
+                ],
+                antenna: { type: "omni", gain: 2 },
+                defaultHeight: 5.0
+            },
+            
+            // UniFi 7 Series (WiFi 7 / 802.11be)
+            {
+                vendor: "Ubiquiti",
+                model: "U7-Pro (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 8.5
+            },
+            
+            // UniFi AC Series (WiFi 5 / 802.11ac)
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-Lite (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-LR (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-Pro (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-HD (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-SHD (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-IW (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-M (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 10.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UAP-AC-M-Pro (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 10.0
+            },
+            
+            // UniFi Outdoor APs
+            {
+                vendor: "Ubiquiti",
+                model: "U6-Outdoor (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "U6-LR-Outdoor (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // UniFi Building-to-Building (Directional)
+            {
+                vendor: "Ubiquiti",
+                model: "UBB (AP)",
+                radios: [
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "directional", gain: 24, beamwidth: 25 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "UBB-XG (AP)",
+                radios: [
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "directional", gain: 26, beamwidth: 20 },
+                defaultHeight: 12.0
+            },
+            
+            // Dream Machine Series (Routers with built-in APs)
+            {
+                vendor: "Ubiquiti",
+                model: "Dream Machine (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "Dream Machine Pro (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "Dream Machine SE (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "Dream Router (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "Dream Wall (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // AmpliFi Series (Consumer Routers)
+            {
+                vendor: "Ubiquiti",
+                model: "AmpliFi HD (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "AmpliFi Instant (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Ubiquiti",
+                model: "AmpliFi Alien (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+                        // ===================================================================
+            // CISCO MERAKI - Enterprise Cloud-Managed (10 devices)
+            // ===================================================================
+            
+            // WiFi 6 Indoor
+            {
+                vendor: "Cisco Meraki",
+                model: "MR36 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Cisco Meraki",
+                model: "MR46 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Cisco Meraki",
+                model: "MR56 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Cisco Meraki",
+                model: "MR57 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6E
+            {
+                vendor: "Cisco Meraki",
+                model: "MR86 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Cisco Meraki",
+                model: "MR76 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Cisco Meraki",
+                model: "MR86E (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            
+            // Entry Level
+            {
+                vendor: "Cisco Meraki",
+                model: "MR20 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            
+            // Security Appliances with WiFi
+            {
+                vendor: "Cisco Meraki",
+                model: "MX67W (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Cisco Meraki",
+                model: "MX68W (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // ===================================================================
+            // RUCKUS NETWORKS - Enterprise (12 devices)
+            // ===================================================================
+            
+            // WiFi 6 Indoor
+            {
+                vendor: "Ruckus",
+                model: "R350 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "R550 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "R650 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "R750 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "R850 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6E
+            {
+                vendor: "Ruckus",
+                model: "R770 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Ruckus",
+                model: "T350c (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "T750 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            
+            // Wall-plate
+            {
+                vendor: "Ruckus",
+                model: "H350 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "Ruckus",
+                model: "H550 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Budget/Entry
+            {
+                vendor: "Ruckus",
+                model: "R320 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Ruckus",
+                model: "R510 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // ===================================================================
+            // JUNIPER MIST - AI-Driven Enterprise (8 devices)
+            // ===================================================================
+            
+            // WiFi 6
+            {
+                vendor: "Juniper Mist",
+                model: "AP33 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Juniper Mist",
+                model: "AP34 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Juniper Mist",
+                model: "AP43 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Juniper Mist",
+                model: "AP44 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6E
+            {
+                vendor: "Juniper Mist",
+                model: "AP45 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Juniper Mist",
+                model: "AP63 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // WiFi 5 (Legacy)
+            {
+                vendor: "Juniper Mist",
+                model: "AP12 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Juniper Mist",
+                model: "AP21 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            
+            // ===================================================================
+            // FORTINET FortiAP - Security-Focused Enterprise (10 devices)
+            // ===================================================================
+            
+            // WiFi 6 Indoor
+            {
+                vendor: "Fortinet",
+                model: "FAP-231F (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Fortinet",
+                model: "FAP-431F (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Fortinet",
+                model: "FAP-433F (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Fortinet",
+                model: "FAP-831F (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6E
+            {
+                vendor: "Fortinet",
+                model: "FAP-234F (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Fortinet",
+                model: "FAP-234G (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Fortinet",
+                model: "FAP-221E (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Fortinet",
+                model: "FAP-423E (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            
+            // Wall-plate
+            {
+                vendor: "Fortinet",
+                model: "FAP-231G (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Entry Level
+            {
+                vendor: "Fortinet",
+                model: "FAP-221C (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            // ===================================================================
+            // EXTREME NETWORKS - Education & Enterprise (10 devices)
+            // ===================================================================
+            
+            // WiFi 6E
+            {
+                vendor: "Extreme Networks",
+                model: "AP4000 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Extreme Networks",
+                model: "AP410C (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6
+            {
+                vendor: "Extreme Networks",
+                model: "AP305C (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Extreme Networks",
+                model: "AP3000 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Extreme Networks",
+                model: "AP4000U (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // Wall-plate
+            {
+                vendor: "Extreme Networks",
+                model: "AP302W (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Extreme Networks",
+                model: "AP3965e (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Extreme Networks",
+                model: "AP4000E (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            
+            // Entry Level
+            {
+                vendor: "Extreme Networks",
+                model: "AP122 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            {
+                vendor: "Extreme Networks",
+                model: "AP250 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            
+            // ===================================================================
+            // CAMBIUM NETWORKS - Outdoor & WISP (12 devices)
+            // ===================================================================
+            
+            // WiFi 6E Indoor
+            {
+                vendor: "Cambium Networks",
+                model: "XV3-8 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6 Indoor
+            {
+                vendor: "Cambium Networks",
+                model: "XV2-2 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "X4-8 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Cambium Networks",
+                model: "e600 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "e700 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 7 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "e410 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "e510 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // cnPilot Indoor
+            {
+                vendor: "Cambium Networks",
+                model: "cnPilot e430H (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "cnPilot e500 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // Point-to-Point
+            {
+                vendor: "Cambium Networks",
+                model: "ePMP Force 300-25 (AP)",
+                radios: [
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "directional", gain: 25, beamwidth: 30 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Cambium Networks",
+                model: "PTP 670 (AP)",
+                radios: [
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "directional", gain: 23, beamwidth: 35 },
+                defaultHeight: 12.0
+            },
+            
+            // Mesh
+            {
+                vendor: "Cambium Networks",
+                model: "XV2-2T (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // ===================================================================
+            // NETGEAR BUSINESS - SMB (12 devices)
+            // ===================================================================
+            
+            // WiFi 6 High-End
+            {
+                vendor: "Netgear Business",
+                model: "WAX630 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Netgear Business",
+                model: "WAX620 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Netgear Business",
+                model: "WAX610 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 6E
+            {
+                vendor: "Netgear Business",
+                model: "WAX630E (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 5
+            {
+                vendor: "Netgear Business",
+                model: "WAC540 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Netgear Business",
+                model: "WAC510 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 9.0
+            },
+            
+            // Wall-plug
+            {
+                vendor: "Netgear Business",
+                model: "WAX220 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "Netgear Business",
+                model: "EAX20 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Netgear Business",
+                model: "WAX625 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // Mesh Router (Orbi Pro)
+            {
+                vendor: "Netgear Business",
+                model: "SXK80 Orbi Pro (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear Business",
+                model: "SXK30 Orbi Pro (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Entry
+            {
+                vendor: "Netgear Business",
+                model: "WAX202 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            
+            // ===================================================================
+            // ENGENIUS - Budget SMB (10 devices)
+            // ===================================================================
+            
+            // WiFi 6
+            {
+                vendor: "EnGenius",
+                model: "EWS377AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "EnGenius",
+                model: "EWS357AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "EnGenius",
+                model: "ECW336 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // Cloud-Managed
+            {
+                vendor: "EnGenius",
+                model: "ECW230 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "EnGenius",
+                model: "ECW220 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "EnGenius",
+                model: "EWS860AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "EnGenius",
+                model: "ENH1350EXT (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "directional", gain: 8, beamwidth: 60 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "EnGenius",
+                model: "ECW230S (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // Wall-plate
+            {
+                vendor: "EnGenius",
+                model: "EWS310AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Budget
+            {
+                vendor: "EnGenius",
+                model: "ECW120 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            
+            // ===================================================================
+            // ZYXEL - SMB & Enterprise (10 devices)
+            // ===================================================================
+            
+            // WiFi 6
+            {
+                vendor: "Zyxel",
+                model: "WAX650S (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Zyxel",
+                model: "WAX640S (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Zyxel",
+                model: "NWA210AX (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Zyxel",
+                model: "WAX610D (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 5
+            {
+                vendor: "Zyxel",
+                model: "NWA1123-AC PRO (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "Zyxel",
+                model: "WAC6552D-S (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // Outdoor
+            {
+                vendor: "Zyxel",
+                model: "WAX510D (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 21 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            {
+                vendor: "Zyxel",
+                model: "NWA1123-AC HD (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 12.0
+            },
+            
+            // Wall-plate
+            {
+                vendor: "Zyxel",
+                model: "WAX300H (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Entry
+            {
+                vendor: "Zyxel",
+                model: "NWA90AX (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 19 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 8.5
+            },
+            // ===================================================================
+            // ASUS - Consumer & Gaming (15 devices)
+            // ===================================================================
+            
+            // WiFi 6E Flagship
+            {
+                vendor: "ASUS",
+                model: "GT-AXE16000 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "GT-AXE11000 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AXE7800 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 6 Gaming (ROG)
+            {
+                vendor: "ASUS",
+                model: "GT-AX11000 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "GT-AX6000 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AX86U Pro (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AX86U (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 6 Mainstream
+            {
+                vendor: "ASUS",
+                model: "RT-AX88U (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AX82U (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AX68U (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "RT-AX58U (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Mesh Systems (ZenWiFi)
+            {
+                vendor: "ASUS",
+                model: "ZenWiFi Pro XT12 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "ZenWiFi AX XT8 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "ASUS",
+                model: "ZenWiFi AX6600 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // Budget WiFi 6
+            {
+                vendor: "ASUS",
+                model: "RT-AX55 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // ===================================================================
+            // NETGEAR CONSUMER - Nighthawk & Orbi (12 devices)
+            // ===================================================================
+            
+            // Nighthawk WiFi 6E
+            {
+                vendor: "Netgear",
+                model: "RAXE500 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RAXE300 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // Nighthawk WiFi 6
+            {
+                vendor: "Netgear",
+                model: "RAX200 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RAX120 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RAX80 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RAX50 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RAX43 Nighthawk (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Orbi WiFi 6E Mesh
+            {
+                vendor: "Netgear",
+                model: "RBKE963 Orbi 960 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 6 },
+                defaultHeight: 3.0
+            },
+            
+            // Orbi WiFi 6 Mesh
+            {
+                vendor: "Netgear",
+                model: "RBK852 Orbi (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RBK752 Orbi (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Netgear",
+                model: "RBK753 Orbi (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // Gaming
+            {
+                vendor: "Netgear",
+                model: "XR1000 Nighthawk Pro (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // ===================================================================
+            // LINKSYS - Velop & Consumer (12 devices)
+            // ===================================================================
+            
+            // WiFi 6E Mesh (Velop)
+            {
+                vendor: "Linksys",
+                model: "MX6200 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "MX5500 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 6E Standalone
+            {
+                vendor: "Linksys",
+                model: "E9450 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "MR9610 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 6 Mesh (Velop)
+            {
+                vendor: "Linksys",
+                model: "MX5300 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "MX4200 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "MR9600 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // Gaming
+            {
+                vendor: "Linksys",
+                model: "WRT32X Gaming (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "WRT3200ACM (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 5 (Budget)
+            {
+                vendor: "Linksys",
+                model: "EA9500 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "Linksys",
+                model: "EA8300 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Mesh WiFi 5 (Velop)
+            {
+                vendor: "Linksys",
+                model: "WHW0303 Velop (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // ===================================================================
+            // D-LINK - Budget Consumer (10 devices)
+            // ===================================================================
+            
+            // WiFi 6E
+            {
+                vendor: "D-Link",
+                model: "DIR-X6060 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            
+            // WiFi 6
+            {
+                vendor: "D-Link",
+                model: "DIR-X5460 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 5 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "D-Link",
+                model: "DIR-X4860 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            {
+                vendor: "D-Link",
+                model: "DIR-X1560 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Mesh WiFi 6 (COVR)
+            {
+                vendor: "D-Link",
+                model: "COVR-X1870 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 3.0
+            },
+            
+            // Range Extenders WiFi 6
+            {
+                vendor: "D-Link",
+                model: "DAP-X2850 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 5.0
+            },
+            {
+                vendor: "D-Link",
+                model: "DAP-X1870 (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 3 },
+                defaultHeight: 5.0
+            },
+            
+            // Business APs
+            {
+                vendor: "D-Link",
+                model: "DWL-8710AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 23 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            {
+                vendor: "D-Link",
+                model: "DWL-6610AP (AP)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
+                ],
+                antenna: { type: "omni", gain: 4 },
+                defaultHeight: 9.0
+            },
+            
+            // WiFi 5 Budget
+            {
+                vendor: "D-Link",
+                model: "DIR-882 (Router)",
+                radios: [
+                    { band: "2.4", maxTx: 20 },
+                    { band: "5", maxTx: 22 }
                 ],
                 antenna: { type: "omni", gain: 4 },
                 defaultHeight: 3.0
@@ -2297,53 +4231,125 @@
         function showDeviceLibrary() {
             const modal = document.getElementById('device-modal');
             const grid = document.getElementById('device-grid');
+            const vendorFilter = document.getElementById('device-vendor-filter');
+            const searchInput = document.getElementById('device-search');
             
-            grid.innerHTML = '';
+            // Get unique vendors
+            const vendors = [...new Set(DEVICE_LIBRARY.map(d => d.vendor))].sort();
             
-            // Group by vendor
-            const byVendor = {};
-            DEVICE_LIBRARY.forEach(device => {
-                if (!byVendor[device.vendor]) {
-                    byVendor[device.vendor] = [];
-                }
-                byVendor[device.vendor].push(device);
+            // Populate vendor dropdown
+            vendorFilter.innerHTML = '<option value="all">All Vendors</option>';
+            vendors.forEach(vendor => {
+                const option = document.createElement('option');
+                option.value = vendor;
+                option.textContent = vendor;
+                vendorFilter.appendChild(option);
             });
             
-            // Render devices
-            Object.keys(byVendor).sort().forEach(vendor => {
-                const vendorHeader = document.createElement('div');
-                vendorHeader.style.fontWeight = '600';
-                vendorHeader.style.marginTop = '12px';
-                vendorHeader.style.marginBottom = '8px';
-                vendorHeader.style.color = 'var(--primary-color)';
-                vendorHeader.textContent = vendor;
-                grid.appendChild(vendorHeader);
+            // Function to filter and render devices
+            function renderDevices() {
+                const selectedVendor = vendorFilter.value;
+                const searchTerm = searchInput.value.toLowerCase().trim();
                 
-                byVendor[vendor].forEach(device => {
-                    const item = document.createElement('div');
-                    item.className = 'device-item';
-                    
-                    const radios = device.radios.map(r => `${r.band}GHz (${r.maxTx}dBm)`).join(', ');
-                    
-                    item.innerHTML = `
-                        <div class="device-name">${device.model}</div>
-                        <div class="device-specs">${radios}</div>
-                        <div class="device-specs">Antenna: ${device.antenna.type} (+${device.antenna.gain}dBi)</div>
-                    `;
-                    
-                    item.addEventListener('click', () => {
-                        APP_STATE.pendingObject = { type: 'ap', device: device };
-                        modal.classList.remove('active');
-                        updateStatus('Click on canvas to place AP');
-                        document.getElementById('konva-container').style.cursor = 'crosshair';
-                    });
-                    
-                    grid.appendChild(item);
+                // Filter devices
+                let filteredDevices = DEVICE_LIBRARY.filter(device => {
+                    const matchesVendor = selectedVendor === 'all' || device.vendor === selectedVendor;
+                    const matchesSearch = searchTerm === '' || 
+                        device.model.toLowerCase().includes(searchTerm) ||
+                        device.vendor.toLowerCase().includes(searchTerm);
+                    return matchesVendor && matchesSearch;
                 });
-            });
+                
+                // Update device count
+                const countText = filteredDevices.length === 1 ? '1 device' : `${filteredDevices.length} devices`;
+                document.getElementById('device-count').textContent = countText;
+                
+                // Clear grid
+                grid.innerHTML = '';
+                
+                if (filteredDevices.length === 0) {
+                    const noResults = document.createElement('div');
+                    noResults.style.cssText = 'text-align: center; padding: 40px; color: var(--text-secondary);';
+                    noResults.innerHTML = '<p>No devices found</p><p style="font-size: 12px; margin-top: 8px;">Try a different search or filter</p>';
+                    grid.appendChild(noResults);
+                    return;
+                }
+                
+                // Group by vendor
+                const byVendor = {};
+                filteredDevices.forEach(device => {
+                    if (!byVendor[device.vendor]) {
+                        byVendor[device.vendor] = [];
+                    }
+                    byVendor[device.vendor].push(device);
+                });
+                
+                // Render devices grouped by vendor
+                Object.keys(byVendor).sort().forEach(vendor => {
+                    // Only show vendor header if showing all vendors
+                    if (selectedVendor === 'all') {
+                        const vendorHeader = document.createElement('div');
+                        vendorHeader.style.cssText = 'font-weight: 600; margin-top: 16px; margin-bottom: 8px; color: var(--primary-color); font-size: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;';
+                        vendorHeader.textContent = vendor;
+                        grid.appendChild(vendorHeader);
+                    }
+                    
+                    byVendor[vendor].forEach(device => {
+                        const item = document.createElement('div');
+                        item.className = 'device-item';
+                        
+                        // Determine if it's a router or AP
+                        const isRouter = device.model.toLowerCase().includes('router');
+                        const deviceIcon = isRouter ? '🌐' : '📡';
+                        
+                        // Build radio specs string
+                        const radios = device.radios.map(r => `${r.band}GHz (${r.maxTx}dBm)`).join(', ');
+                        
+                        // Build antenna info
+                        const antennaInfo = device.antenna.type === 'directional' 
+                            ? `${device.antenna.type} (+${device.antenna.gain}dBi, ${device.antenna.beamwidth}°)`
+                            : `${device.antenna.type} (+${device.antenna.gain}dBi)`;
+                        
+                        item.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 20px;">${deviceIcon}</span>
+                                <div style="flex: 1;">
+                                    <div class="device-name">${device.model}</div>
+                                    <div class="device-specs">${radios}</div>
+                                    <div class="device-specs">Antenna: ${antennaInfo}</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        item.addEventListener('click', () => {
+                            APP_STATE.pendingObject = { type: 'ap', device: device };
+                            modal.classList.remove('active');
+                            updateStatus('Click on canvas to place ' + (isRouter ? 'router' : 'AP'));
+                            document.getElementById('konva-container').style.cursor = 'crosshair';
+                        });
+                        
+                        grid.appendChild(item);
+                    });
+                });
+            }
+            
+            // Initial render
+            renderDevices();
+            
+            // Add event listeners for filtering
+            vendorFilter.addEventListener('change', renderDevices);
+            searchInput.addEventListener('input', renderDevices);
+            
+            // Clear search when modal opens
+            searchInput.value = '';
+            vendorFilter.value = 'all';
             
             modal.classList.add('active');
-            feather.replace(); // Replace icons in dynamically added content
+            
+            // Focus search box for quick typing
+            setTimeout(() => searchInput.focus(), 100);
+            
+            feather.replace();
         }
         
         // ===================================================================
