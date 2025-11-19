@@ -2,7 +2,6 @@
 A powerful, browser-based WiFi network planning and RF propagation modeling tool for designing enterprise wireless networks. Plan your WiFi coverage with real-time heatmaps, wall attenuation modeling, and comprehensive AP placement analysis.
 
 ![NetScope Interface](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
